@@ -11,18 +11,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 
-import javax.websocket.ClientEndpoint;
+import javax.websocket.ClientEndpointConfig;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
+import javax.websocket.Endpoint;
+import javax.websocket.EndpointConfig;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -70,9 +69,18 @@ public class MattermostChatClient implements ChatClient<MattermostResponse> {
     WebSocketContainer container = ContainerProvider.getWebSocketContainer();
     //mattermost events can be larger than the default websocket text message buffer size
     container.setDefaultMaxTextMessageBufferSize(MAX_TEXT_MESSAGE_BUFFER_SIZE);
+    ClientEndpointConfig endpointConfig = ClientEndpointConfig.Builder.create()
+            .configurator(new ClientEndpointConfig.Configurator() {
+              @Override
+              public void beforeRequest(Map<String, List<String>> headers) {
+                //tyrus sends an http origin even for wss connections, which mattermost rejects with a 403
+                headers.put("Origin", Collections.singletonList(getBaseUrl()));
+              }
+            })
+            .build();
     while (true) {
       try {
-        Session session = container.connectToServer(new MattermostWebSocketEndpoint(), URI.create(getWebsocketUrl()));
+        Session session = container.connectToServer(new MattermostWebSocketEndpoint(), endpointConfig, URI.create(getWebsocketUrl()));
         LOGGER.info("Connected to mattermost websocket api");
         while (session.isOpen()) {
           Thread.sleep(1000);
@@ -244,29 +252,22 @@ public class MattermostChatClient implements ChatClient<MattermostResponse> {
     }
   }
 
-  @ClientEndpoint
-  private class MattermostWebSocketEndpoint {
-    @OnOpen
-    public void onOpen(Session session) {
+  private class MattermostWebSocketEndpoint extends Endpoint {
+
+    @Override
+    public void onOpen(Session session, EndpointConfig endpointConfig) {
       //mattermost requires authentication within 10 seconds of connecting
       session.getAsyncRemote().sendText(new Gson().toJson(new MattermostAuthRequest(MattermostChatClient.this.token)));
+      session.addMessageHandler(String.class, message -> {
+        try {
+          MattermostChatClient.this.processWebSocketMessage(message);
+        } catch (Throwable t) {
+          LOGGER.error("Error processing mattermost websocket event", t);
+        }
+      });
     }
 
-    @OnMessage
-    public void onMessage(String message) {
-      try {
-        MattermostChatClient.this.processWebSocketMessage(message);
-      } catch (Throwable t) {
-        LOGGER.error("Error processing mattermost websocket event", t);
-      }
-    }
-
-    @OnError
-    public void onError(Session session, Throwable throwable) {
-      LOGGER.error("Error from mattermost websocket connection", throwable);
-    }
-
-    @OnClose
+    @Override
     public void onClose(Session session, CloseReason closeReason) {
       LOGGER.warn("Mattermost websocket connection closed, reason=" + closeReason);
     }

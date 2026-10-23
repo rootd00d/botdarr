@@ -1,6 +1,7 @@
 package com.botdarr.clients.mattermost;
 
 import com.botdarr.Config;
+import com.botdarr.clients.mattermost.transactions.MattermostAuthRequest;
 import com.google.gson.Gson;
 import mockit.Deencapsulation;
 import org.junit.*;
@@ -43,6 +44,13 @@ public class MattermostChatClientTests {
         .withMethod("GET")
         .withPath("/api/v4/users/me")
         .withHeader("Authorization", "Bearer " + BOT_TOKEN));
+  }
+
+  @Test
+  public void authRequest_serializesToMattermostWebsocketChallengeFormat() {
+    String json = new Gson().toJson(new MattermostAuthRequest(BOT_TOKEN));
+    Assert.assertEquals(
+      "{\"seq\":1,\"action\":\"authentication_challenge\",\"data\":{\"token\":\"" + BOT_TOKEN + "\"}}", json);
   }
 
   @Test(expected = RuntimeException.class)
