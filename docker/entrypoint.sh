@@ -8,10 +8,10 @@ function addConfiguration {
     echo "${environmentVariableName}=${environmentVariableValue}" >> "${propertiesFile}"
 }
 
-propertiesFile="/data/config/properties"
+propertiesFile="/home/botdarr/config/properties"
 
 if [ ! -e "$propertiesFile" ]; then
-    mkdir -p "/data/config"
+    mkdir -p "/home/botdarr/config"
     [[ ! -z "${MATRIX_USERNAME}" ]] && addConfiguration "matrix-username" "${MATRIX_USERNAME}" "${propertiesFile}"
     [[ ! -z "${MATRIX_PASSWORD}" ]] && addConfiguration "matrix-password" "${MATRIX_PASSWORD}" "${propertiesFile}"
     [[ ! -z "${MATRIX_ROOM}" ]] && addConfiguration "matrix-room" "${MATRIX_ROOM}" "${propertiesFile}"
