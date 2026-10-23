@@ -126,11 +126,11 @@ nohup java -jar botdarr-release.jar &
 1. Then run below command
 ```
 # for latest
-docker run -d --name botdarr -e DISCORD_TOKEN="blahblah" -e DISCORD_CHANNELS="channel1" -v <BOTDARR_HOME>/database:/home/botdarr/database -v <BOTDARR_HOME>/logs:/home/botdarr/logs shayaantx/botdarr:latest &
+docker run -d --name botdarr -e DISCORD_TOKEN="blahblah" -e DISCORD_CHANNELS="channel1" -v <BOTDARR_HOME>:/data shayaantx/botdarr:latest &
 ```
 
 1. Or if you want to use docker-compose
-1. If don't want to use environment variables to configure botdarr, mount a file named properties to ([See Sample properties](https://github.com/shayaantx/botdarr/blob/development/sample.properties)) to /home/botdarr/config
+1. If don't want to use environment variables to configure botdarr, mount a file named properties to ([See Sample properties](https://github.com/shayaantx/botdarr/blob/development/sample.properties)) to /data/config
 
 ```
 version: '2.2'
@@ -145,8 +145,7 @@ botdarr:
        RADARR_DEFAULT_PROFILE: profile1
        RADARR_PATH: /some-path
     volumes:
-       - <BOTDARR_HOME>/logs:/home/botdarr/logs
-       - <BOTDARR_HOME>/database:/home/botdarr/database
+       - <BOTDARR_HOME>:/data
 ```
 
 ### Environment Variable configuration

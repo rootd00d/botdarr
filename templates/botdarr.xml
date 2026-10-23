@@ -9,7 +9,7 @@
   <Privileged>false</Privileged>
   <Support>https://gitlab.simplythinking.ca/labs/botdarr/-/issues</Support>
   <Project>https://github.com/shayaantx/botdarr</Project>
-  <Overview>A chat bot that lets you search, add, and monitor Radarr, Sonarr, and Lidarr content from Discord, Telegram, Slack, Matrix, or Mattermost. Configure exactly ONE chat client section below, plus whichever media servers you run. Note: environment variables are only applied when the container's config file does not yet exist; after changing any variable here, delete the appdata config/properties file and restart the container.</Overview>
+  <Overview>A chat bot that lets you search, add, and monitor Radarr, Sonarr, and Lidarr content from Discord, Telegram, Slack, Matrix, or Mattermost. Configure exactly ONE chat client section below, plus whichever media servers you run. The single appdata path holds the generated config, the sqlite database, and logs. Note: environment variables are only applied when the config/properties file does not yet exist; after changing any variable here, delete that file from the appdata path and restart the container.</Overview>
   <Category>Tools:Utilities</Category>
   <WebUI/>
   <TemplateURL>https://raw.githubusercontent.com/rootd00d/botdarr/development/templates/botdarr.xml</TemplateURL>
@@ -17,9 +17,8 @@
   <ExtraParams/>
   <PostArgs/>
   <CPUset/>
-  <Requires>Exactly one chat client (Mattermost, Discord, Telegram, Slack, or Matrix) must be configured, otherwise the bot refuses to start. Radarr/Sonarr/Lidarr sections are each optional but all fields in a section are required to enable it. The container persists its config and sqlite database under the two appdata paths below.</Requires>
-  <Config Name="config" Target="/home/botdarr/config" Default="/mnt/user/appdata/botdarr/config" Mode="rw" Description="Path where the generated properties file is stored (delete properties here after changing environment variables)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/botdarr/config</Config>
-  <Config Name="database" Target="/home/botdarr/database" Default="/mnt/user/appdata/botdarr/database" Mode="rw" Description="Path where the bot's sqlite database is stored" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/botdarr/database</Config>
+  <Requires>Exactly one chat client (Mattermost, Discord, Telegram, Slack, or Matrix) must be configured, otherwise the bot refuses to start. Radarr/Sonarr/Lidarr sections are each optional but all fields in a section are required to enable it.</Requires>
+  <Config Name="appdata" Target="/data" Default="/mnt/user/appdata/botdarr" Mode="rw" Description="Path where the bot stores its config, sqlite database, and logs (delete config/properties after changing environment variables)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/botdarr</Config>
   <Config Name="mattermost_url" Target="" Default="" Mode="" Description="Mattermost: the url of your mattermost instance (one chat client only)" Type="Variable" Display="always" Required="false" Mask="false">MATTERMOST_URL=</Config>
   <Config Name="mattermost_token" Target="" Default="" Mode="" Description="Mattermost: the bot account's personal access token (don't share)" Type="Variable" Display="always" Required="false" Mask="true">MATTERMOST_TOKEN=</Config>
   <Config Name="mattermost_channels" Target="" Default="" Mode="" Description="Mattermost: comma delimited list of channel ids the bot listens and posts in; the bot must be a member of each channel" Type="Variable" Display="always" Required="false" Mask="false">MATTERMOST_CHANNELS=</Config>
