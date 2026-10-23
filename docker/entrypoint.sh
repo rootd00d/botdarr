@@ -17,6 +17,10 @@ if [ ! -e "$propertiesFile" ]; then
     [[ ! -z "${MATRIX_ROOM}" ]] && addConfiguration "matrix-room" "${MATRIX_ROOM}" "${propertiesFile}"
     [[ ! -z "${MATRIX_HOME_SERVER_URL}" ]] && addConfiguration "matrix-home-server-url" "${MATRIX_HOME_SERVER_URL}" "${propertiesFile}"
 
+    [[ ! -z "${MATTERMOST_URL}" ]] && addConfiguration "mattermost-url" "${MATTERMOST_URL}" "${propertiesFile}"
+    [[ ! -z "${MATTERMOST_TOKEN}" ]] && addConfiguration "mattermost-token" "${MATTERMOST_TOKEN}" "${propertiesFile}"
+    [[ ! -z "${MATTERMOST_CHANNELS}" ]] && addConfiguration "mattermost-channels" "${MATTERMOST_CHANNELS}" "${propertiesFile}"
+
     [[ ! -z "${TELEGRAM_TOKEN}" ]] && addConfiguration "telegram-token" "${TELEGRAM_TOKEN}" "${propertiesFile}"
     [[ ! -z "${TELEGRAM_PRIVATE_CHANNELS}" ]] && addConfiguration "telegram-private-channels" "${TELEGRAM_PRIVATE_CHANNELS}" "${propertiesFile}"
     [[ ! -z "${TELEGRAM_PRIVATE_GROUPS}" ]] && addConfiguration "telegram-private-groups" "${TELEGRAM_PRIVATE_GROUPS}" "${propertiesFile}"

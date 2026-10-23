@@ -28,6 +28,7 @@ Made this simple multi chat-client bot to access radarr, sonarr, and lidarr with
 - [x] Slack
 - [x] Telegram
 - [x] Matrix
+- [x] Mattermost
 
 ## Currently, Supported Feature's
 
@@ -40,7 +41,7 @@ Made this simple multi chat-client bot to access radarr, sonarr, and lidarr with
 - [x] Configurable value for max number of movies, shows, and artists per user
 - [x] Configurable command prefix (i.e., /help, $help, !help)
 - [x] Configurable value for url base for radarr, sonarr, and lidarr
-- [x] (discord/slack only) Thumbs up reaction will add search results 
+- [x] (discord/slack/mattermost only) Thumbs up reaction will add search results 
 - [x] User requests audited to local database\
 - [x] Blacklist content by paths from showing up in searches
 - [x] Get status of radarr, lidarr, sonarr, and any additional configured endpoints
@@ -84,6 +85,17 @@ See https://github.com/shayaantx/botdarr/wiki/Install-Telegram-Bot
 ## Matrix bot installation
 
 See https://github.com/shayaantx/botdarr/wiki/Install-Matrix-Bot
+
+## Mattermost bot installation
+
+1. Create a bot account in Mattermost (System Console -> Integrations -> Bot Accounts -> Add Bot)
+1. Generate a token for the bot (System Console -> Integrations -> Bot Accounts -> your bot -> Generate Token)
+1. Invite the bot to every channel it should listen/send messages in (channel header -> channel name -> Add Members)
+1. Copy each channel's id (channel header -> channel name -> More -> Copy channel id)
+1. Configure the MATTERMOST_URL, MATTERMOST_TOKEN, and MATTERMOST_CHANNELS environment variables (or
+mattermost-url, mattermost-token, and mattermost-channels in your properties file)
+1. To add content, either copy the "Add movie command" line from a search result into the channel,
+or react to a bot message with a thumbs up reaction
 
 ## Jar installation/Configuration
 
@@ -155,6 +167,9 @@ botdarr:
 |      MATRIX_PASSWORD      |                                                                                                                                                                                                 The matrix bot password                                                                                                                                                                                                 | yes - if you use matrix |
 |        MATRIX_ROOM        |                                                                                                                                                                     The comma delimited list of matrix rooms you want to send/receive messages from                                                                                                                                                                     | yes - if you use matrix |
 |  MATRIX_HOME_SERVER_URL   |                                                                                                                                                                                               The url of your homeserver                                                                                                                                                                                                | yes - if you use matrix |
+|      MATTERMOST_URL       |                                                                                                                                                                                           The url of your mattermost instance                                                                                                                                                                                           | yes - if you use mattermost |
+|     MATTERMOST_TOKEN      |                                                                                                                                                                                        The mattermost bot token (don't share)                                                                                                                                                                                         | yes - if you use mattermost |
+|    MATTERMOST_CHANNELS    |                                                                                                                  The comma delimited list of mattermost channel ids the bot listens and sends messages in. The bot must be a member of each channel                                                                                                                  | yes - if you use mattermost |
     
 
 #### Radarr
