@@ -126,11 +126,11 @@ nohup java -jar botdarr-release.jar &
 1. Then run below command
 ```
 # for latest
-docker run -d --name botdarr -e DISCORD_TOKEN="blahblah" -e DISCORD_CHANNELS="channel1" -v <BOTDARR_HOME>:/data shayaantx/botdarr:latest &
+docker run -d --name botdarr -e DISCORD_TOKEN="blahblah" -e DISCORD_CHANNELS="channel1" -v <BOTDARR_HOME>:/home/botdarr shayaantx/botdarr:latest &
 ```
 
 1. Or if you want to use docker-compose
-1. If don't want to use environment variables to configure botdarr, mount a file named properties to ([See Sample properties](https://github.com/shayaantx/botdarr/blob/development/sample.properties)) to /data/config
+1. If don't want to use environment variables to configure botdarr, mount a file named properties to ([See Sample properties](https://github.com/shayaantx/botdarr/blob/development/sample.properties)) to /home/botdarr/config
 
 ```
 version: '2.2'
@@ -145,19 +145,12 @@ botdarr:
        RADARR_DEFAULT_PROFILE: profile1
        RADARR_PATH: /some-path
     volumes:
-       - <BOTDARR_HOME>:/data
+       - <BOTDARR_HOME>:/home/botdarr
 ```
 
 ### Unraid installation
 
-1. A Community Apps template lives at [templates/botdarr.xml](templates/botdarr.xml); once it is approved into the Community Apps feed, search for botdarr in the Apps tab and install it
-1. If it is not listed yet, install the template manually (custom template repositories were removed in Unraid 6.10):
-```
-curl -o /boot/config/plugins/dockerMan/templates-user/my-botdarr.xml https://raw.githubusercontent.com/rootd00d/botdarr/development/templates/botdarr.xml
-```
-Then go to Docker > Add Container, pick botdarr from the Template dropdown, and Apply
-1. The template pulls https://hub.docker.com/r/rootd00d/botdarr and mounts a single appdata folder (e.g. /mnt/user/appdata/botdarr) to /data, which persists config, database, and logs
-1. Fill in the environment variables in the template form, [See Environment Variable Section](#environment-variable-configuration) - at least one chat client and one media api are required
+See https://github.com/shayaantx/botdarr/wiki/Install-Unraid
 
 ### Environment Variable configuration
 

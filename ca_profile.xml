@@ -1,6 +1,6 @@
 <CommunityApplications>
-  <Profile>Apps maintained for the labs group on gitlab.simplythinking.ca. Currently offers botdarr, a chat bot for searching, adding, and monitoring Radarr, Sonarr, and Lidarr content from Discord, Telegram, Slack, Matrix, or Mattermost. Built from https://gitlab.simplythinking.ca/labs/botdarr (a mirror of https://github.com/shayaantx/botdarr with local additions) and published to Docker Hub as rootd00d/botdarr.</Profile>
-  <Icon/>
-  <WebPage>https://gitlab.simplythinking.ca/labs/botdarr</WebPage>
-  <Forum>https://gitlab.simplythinking.ca/labs/botdarr/-/issues</Forum>
+  <Profile>Official application template for botdarr, a chat bot for searching, adding, and monitoring Radarr, Sonarr, and Lidarr content from Discord, Telegram, Slack, Matrix, or Mattermost. The template, the project, and the Docker image (shayaantx/botdarr on Docker Hub) are all maintained at https://github.com/shayaantx/botdarr.</Profile>
+  <Icon>https://raw.githubusercontent.com/shayaantx/botdarr/development/templates/icon.png</Icon>
+  <WebPage>https://github.com/shayaantx/botdarr</WebPage>
+  <Forum>https://github.com/shayaantx/botdarr/issues</Forum>
 </CommunityApplications>
