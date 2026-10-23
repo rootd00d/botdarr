@@ -1,0 +1,71 @@
+# botdarr CI: test + package on every branch/MR, docker image to the GitLab
+# registry on development (test images), and to Docker Hub on tag pushes (releases).
+#
+# Required CI/CD variables (Settings -> CI/CD -> Variables):
+#   DOCKERHUB_USER  - docker hub username (rootd00d)
+#   DOCKERHUB_TOKEN - docker hub access token (Read & Write), masked
+#
+# GitLab registry credentials (CI_REGISTRY, CI_REGISTRY_USER, CI_REGISTRY_PASSWORD)
+# are predefined by GitLab and need no configuration.
+
+stages:
+  - test
+  - package
+  - docker
+
+variables:
+  MAVEN_CLI_OPTS: "--batch-mode --no-transfer-progress"
+  MAVEN_OPTS: "-Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
+
+.maven:
+  image: maven:3.8-openjdk-8
+  cache:
+    key: maven-jdk8
+    paths:
+      - .m2/repository
+
+test:
+  extends: .maven
+  stage: test
+  script:
+    - mvn ${MAVEN_CLI_OPTS} test
+
+package:
+  extends: .maven
+  stage: package
+  script:
+    - mvn ${MAVEN_CLI_OPTS} package -DskipTests
+  artifacts:
+    paths:
+      - target/botdarr-release.jar
+    expire_in: 1 week
+
+.docker:
+  stage: docker
+  image: docker:24
+  services:
+    - docker:24-dind
+  dependencies:
+    - package
+
+# test images: every push to development lands in the project's GitLab registry
+docker-test:
+  extends: .docker
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+  script:
+    - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+    - docker build -t "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}" -t "${CI_REGISTRY_IMAGE}:testing" .
+    - docker push "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}"
+    - docker push "${CI_REGISTRY_IMAGE}:testing"
+
+# releases: push a tag (e.g. 5.6.24) to publish rootd00d/botdarr on Docker Hub
+docker-release:
+  extends: .docker
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - docker login -u "${DOCKERHUB_USER}" -p "${DOCKERHUB_TOKEN}"
+    - docker build -t "${DOCKERHUB_USER}/botdarr:${CI_COMMIT_TAG}" -t "${DOCKERHUB_USER}/botdarr:latest" .
+    - docker push "${DOCKERHUB_USER}/botdarr:${CI_COMMIT_TAG}"
+    - docker push "${DOCKERHUB_USER}/botdarr:latest"
