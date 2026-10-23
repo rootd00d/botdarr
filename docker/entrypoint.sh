@@ -64,6 +64,10 @@ mkdir -p "/home/botdarr/config"
 [[ ! -z "${STATUS_ENDPOINTS}" ]] && addConfiguration "status-endpoints" "${STATUS_ENDPOINTS}" "${overrides}"
 [[ ! -z "${LOG_LEVEL}" ]] && addConfiguration "log-level" "${LOG_LEVEL}" "${overrides}"
 [[ ! -z "${NOTIFICATION_INTERVAL}" ]] && addConfiguration "notification-interval" "${NOTIFICATION_INTERVAL}" "${overrides}"
+[[ ! -z "${MAX_DOWNLOADS_TO_SHOW}" ]] && addConfiguration "max-downloads-to-show" "${MAX_DOWNLOADS_TO_SHOW}" "${overrides}"
+[[ ! -z "${MAX_RESULTS_TO_SHOW}" ]] && addConfiguration "max-results-to-show" "${MAX_RESULTS_TO_SHOW}" "${overrides}"
+[[ ! -z "${COMMAND_PREFIX}" ]] && addConfiguration "command-prefix" "${COMMAND_PREFIX}" "${overrides}"
+[[ ! -z "${TIMEOUT}" ]] && addConfiguration "timeout" "${TIMEOUT}" "${overrides}"
 
 if [ ! -e "${propertiesFile}" ]; then
     # first boot: generate the properties file from the environment variables
