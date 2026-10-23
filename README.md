@@ -239,3 +239,7 @@ See https://github.com/shayaantx/botdarr/wiki/Install-Unraid
   * !movies help
 * The default command prefix is !. I chose ! because / (original command prefix) is commonly used by many chat clients and has existing functionality with it that leads to some commands not working nicely.
 <br/>
+
+## Attribution
+
+The Unraid application icon is courtesy of [qubex22](https://github.com/qubex22).
