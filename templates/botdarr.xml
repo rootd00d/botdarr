@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>botdarr</Name>
-  <Repository>docker.simplythinking.ca/labs/botdarr/botdarr</Repository>
-  <Registry>https://gitlab.simplythinking.ca</Registry>
+  <Repository>rootd00d/botdarr</Repository>
+  <Registry>https://hub.docker.com</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>bash</Shell>
@@ -13,7 +13,7 @@
   <Category>Tools:Utilities</Category>
   <WebUI/>
   <TemplateURL>https://raw.githubusercontent.com/rootd00d/botdarr/development/templates/botdarr.xml</TemplateURL>
-  <Icon/>
+  <Icon>https://raw.githubusercontent.com/rootd00d/botdarr/development/templates/icon.png</Icon>
   <ExtraParams/>
   <PostArgs/>
   <CPUset/>

@@ -36,3 +36,6 @@ dependency-reduced-pom.xml
 *.db
 
 *.zip
+
+### local env/secrets ###
+.env
