@@ -148,6 +148,13 @@ botdarr:
        - <BOTDARR_HOME>:/data
 ```
 
+### Unraid installation
+
+1. An Unraid Community Apps template is available in this repository at [templates/botdarr.xml](templates/botdarr.xml)
+1. If botdarr does not show up in the Apps tab, add this repository's URL to Community Apps settings ("Add location of app template XML") and it will be scanned
+1. Install from the Apps tab; it pulls https://hub.docker.com/r/rootd00d/botdarr and mounts a single appdata folder (e.g. /mnt/user/appdata/botdarr) to /data, which persists config, database, and logs
+1. Fill in the environment variables in the template form, [See Environment Variable Section](#environment-variable-configuration) - at least one chat client and one media api are required
+
 ### Environment Variable configuration
 
 #### Chat Client Variables
