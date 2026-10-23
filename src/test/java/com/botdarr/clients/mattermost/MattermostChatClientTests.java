@@ -204,7 +204,7 @@ public class MattermostChatClientTests {
     mockServerRule.getClient()
       .when(request)
       .respond(HttpResponse.response()
-        .withStatusCode(200)
+        .withStatusCode(201)
         .withBody("{\"id\":\"new-post-id\"}", MediaType.APPLICATION_JSON));
 
     MattermostResponse response = new MattermostResponse();

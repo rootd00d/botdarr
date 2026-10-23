@@ -45,7 +45,7 @@ public class ConnectionHelper {
       LOGGER.debug("Running request, uri= " + request.getURI());
       try (CloseableHttpResponse response = client.execute(requestHandler.buildRequest())) {
         int statusCode = response.getStatusLine().getStatusCode();
-        if (statusCode == 200) {
+        if (statusCode >= 200 && statusCode < 300) {
           try {
             String responseStr = EntityUtils.toString(response.getEntity());
             LOGGER.debug("Response str=" + responseStr);
@@ -55,7 +55,7 @@ public class ConnectionHelper {
             return responseHandler.onException(e);
           }
         } else {
-          LOGGER.error("Non 200 status code returned from request, code=" + statusCode + ", reason=" + response.getStatusLine().getReasonPhrase());
+          LOGGER.error("Non 2xx status code returned from request, code=" + statusCode + ", reason=" + response.getStatusLine().getReasonPhrase());
           return responseHandler.onFailure(statusCode, response.getStatusLine().getReasonPhrase());
         }
       } catch (HttpHostConnectException e) {
