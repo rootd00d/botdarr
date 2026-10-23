@@ -30,6 +30,20 @@ test:
   script:
     - mvn ${MAVEN_CLI_OPTS} test
 
+# tag pipelines must have version.txt matching the tag being released
+release-check:
+  stage: test
+  image: alpine:3.19
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - |
+      VERSION="$(cat src/main/resources/version.txt)"
+      if [ "${VERSION}" != "${CI_COMMIT_TAG}" ]; then
+        echo "version.txt is ${VERSION} but tag is ${CI_COMMIT_TAG} - bump version.txt in the tagged commit"
+        exit 1
+      fi
+
 package:
   extends: .maven
   stage: package
