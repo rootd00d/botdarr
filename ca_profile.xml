@@ -1,0 +1,6 @@
+<CommunityApplications>
+  <Profile>Official application template for botdarr, a chat bot for searching, adding, and monitoring Radarr, Sonarr, and Lidarr content from Discord, Telegram, Slack, Matrix, or Mattermost. The template, the project, and the Docker image (shayaantx/botdarr on Docker Hub) are all maintained at https://github.com/shayaantx/botdarr.</Profile>
+  <Icon>https://raw.githubusercontent.com/shayaantx/botdarr/development/templates/icon.png</Icon>
+  <WebPage>https://github.com/shayaantx/botdarr</WebPage>
+  <Forum>https://github.com/shayaantx/botdarr/issues</Forum>
+</CommunityApplications>

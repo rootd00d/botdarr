@@ -3,6 +3,7 @@ package com.botdarr;
 import com.botdarr.clients.ChatClientBootstrap;
 import com.botdarr.clients.discord.DiscordBootstrap;
 import com.botdarr.clients.matrix.MatrixBootstrap;
+import com.botdarr.clients.mattermost.MattermostBootstrap;
 import com.botdarr.clients.slack.SlackBootstrap;
 import com.botdarr.clients.telegram.TelegramBootstrap;
 import org.apache.logging.log4j.Level;
@@ -52,6 +53,7 @@ public class Config {
       List<ChatClientBootstrap> availableBootstraps = Arrays.asList(
               new DiscordBootstrap(),
               new MatrixBootstrap(),
+              new MattermostBootstrap(),
               new SlackBootstrap(),
               new TelegramBootstrap());
       for (ChatClientBootstrap possibleChatClientType : availableBootstraps) {
@@ -244,6 +246,21 @@ public class Config {
      * The matrix home server for the bot
      */
     public static final String MATRIX_HOME_SERVER = "matrix-home-server-url";
+
+    /**
+     * The mattermost url
+     */
+    public static final String MATTERMOST_URL = "mattermost-url";
+
+    /**
+     * The mattermost bot token
+     */
+    public static final String MATTERMOST_TOKEN = "mattermost-token";
+
+    /**
+     * The comma delimited list of mattermost channel ids the bot listens and sends messages in
+     */
+    public static final String MATTERMOST_CHANNELS = "mattermost-channels";
 
     /**
      * The telegram auth token
