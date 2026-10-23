@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>botdarr</Name>
+  <Repository>docker.simplythinking.ca/labs/botdarr/botdarr</Repository>
+  <Registry>https://gitlab.simplythinking.ca</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://gitlab.simplythinking.ca/labs/botdarr/-/issues</Support>
+  <Project>https://github.com/shayaantx/botdarr</Project>
+  <Overview>A chat bot that lets you search, add, and monitor Radarr, Sonarr, and Lidarr content from Discord, Telegram, Slack, Matrix, or Mattermost. Configure exactly ONE chat client section below, plus whichever media servers you run. Note: environment variables are only applied when the container's config file does not yet exist; after changing any variable here, delete the appdata config/properties file and restart the container.</Overview>
+  <Category>Tools:Utilities</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/rootd00d/botdarr/development/templates/botdarr.xml</TemplateURL>
+  <Icon/>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <Requires>Exactly one chat client (Mattermost, Discord, Telegram, Slack, or Matrix) must be configured, otherwise the bot refuses to start. Radarr/Sonarr/Lidarr sections are each optional but all fields in a section are required to enable it. The container persists its config and sqlite database under the two appdata paths below.</Requires>
+  <Config Name="config" Target="/home/botdarr/config" Default="/mnt/user/appdata/botdarr/config" Mode="rw" Description="Path where the generated properties file is stored (delete properties here after changing environment variables)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/botdarr/config</Config>
+  <Config Name="database" Target="/home/botdarr/database" Default="/mnt/user/appdata/botdarr/database" Mode="rw" Description="Path where the bot's sqlite database is stored" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/botdarr/database</Config>
+  <Config Name="mattermost_url" Target="" Default="" Mode="" Description="Mattermost: the url of your mattermost instance (one chat client only)" Type="Variable" Display="always" Required="false" Mask="false">MATTERMOST_URL=</Config>
+  <Config Name="mattermost_token" Target="" Default="" Mode="" Description="Mattermost: the bot account's personal access token (don't share)" Type="Variable" Display="always" Required="false" Mask="true">MATTERMOST_TOKEN=</Config>
+  <Config Name="mattermost_channels" Target="" Default="" Mode="" Description="Mattermost: comma delimited list of channel ids the bot listens and posts in; the bot must be a member of each channel" Type="Variable" Display="always" Required="false" Mask="false">MATTERMOST_CHANNELS=</Config>
+  <Config Name="discord_token" Target="" Default="" Mode="" Description="Discord: the bot token (don't share) (one chat client only)" Type="Variable" Display="always" Required="false" Mask="true">DISCORD_TOKEN=</Config>
+  <Config Name="discord_channels" Target="" Default="" Mode="" Description="Discord: comma delimited list of channel names the bot has access to" Type="Variable" Display="always" Required="false" Mask="false">DISCORD_CHANNELS=</Config>
+  <Config Name="telegram_token" Target="" Default="" Mode="" Description="Telegram: the bot token from BotFather (don't share) (one chat client only)" Type="Variable" Display="always" Required="false" Mask="true">TELEGRAM_TOKEN=</Config>
+  <Config Name="telegram_private_channels" Target="" Default="" Mode="" Description="Telegram: comma delimited list of CHANNEL_NAME:CHANNEL_ID pairs for private channels" Type="Variable" Display="always" Required="false" Mask="false">TELEGRAM_PRIVATE_CHANNELS=</Config>
+  <Config Name="telegram_private_groups" Target="" Default="" Mode="" Description="Telegram: comma delimited list of GROUP_NAME:GROUP_ID pairs for private groups" Type="Variable" Display="always" Required="false" Mask="false">TELEGRAM_PRIVATE_GROUPS=</Config>
+  <Config Name="slack_bot_token" Target="" Default="" Mode="" Description="Slack: the bot oauth authentication token (don't share) (one chat client only)" Type="Variable" Display="always" Required="false" Mask="true">SLACK_BOT_TOKEN=</Config>
+  <Config Name="slack_app_token" Target="" Default="" Mode="" Description="Slack: the app authentication token (required for socket mode)" Type="Variable" Display="always" Required="false" Mask="true">SLACK_APP_TOKEN=</Config>
+  <Config Name="slack_channels" Target="" Default="" Mode="" Description="Slack: comma delimited list of channels to post messages to" Type="Variable" Display="always" Required="false" Mask="false">SLACK_CHANNELS=</Config>
+  <Config Name="matrix_username" Target="" Default="" Mode="" Description="Matrix: the bot username (one chat client only)" Type="Variable" Display="always" Required="false" Mask="false">MATRIX_USERNAME=</Config>
+  <Config Name="matrix_password" Target="" Default="" Mode="" Description="Matrix: the bot password (don't share)" Type="Variable" Display="always" Required="false" Mask="true">MATRIX_PASSWORD=</Config>
+  <Config Name="matrix_room" Target="" Default="" Mode="" Description="Matrix: comma delimited list of rooms to send/receive messages from" Type="Variable" Display="always" Required="false" Mask="false">MATRIX_ROOM=</Config>
+  <Config Name="matrix_home_server_url" Target="" Default="" Mode="" Description="Matrix: the url of your matrix homeserver" Type="Variable" Display="always" Required="false" Mask="false">MATRIX_HOME_SERVER_URL=</Config>
+  <Config Name="radarr_url" Target="" Default="" Mode="" Description="Radarr: the url of your radarr instance (all four radarr fields required to enable movies)" Type="Variable" Display="always" Required="false" Mask="false">RADARR_URL=</Config>
+  <Config Name="radarr_token" Target="" Default="" Mode="" Description="Radarr: api key from Radarr -&gt; Settings -&gt; General (don't share)" Type="Variable" Display="always" Required="false" Mask="true">RADARR_TOKEN=</Config>
+  <Config Name="radarr_default_profile" Target="" Default="" Mode="" Description="Radarr: quality profile name (must already exist in radarr)" Type="Variable" Display="always" Required="false" Mask="false">RADARR_DEFAULT_PROFILE=</Config>
+  <Config Name="radarr_path" Target="" Default="" Mode="" Description="Radarr: root folder where added movies should go" Type="Variable" Display="always" Required="false" Mask="false">RADARR_PATH=</Config>
+  <Config Name="radarr_url_base" Target="" Default="" Mode="" Description="Radarr: only set if radarr runs under a custom url base (no prefix/suffix slashes)" Type="Variable" Display="always" Required="false" Mask="false">RADARR_URL_BASE=</Config>
+  <Config Name="radarr_default_availability" Target="" Default="Announced" Mode="" Description="Radarr: minimum availability for added movies (see servarr wiki)" Type="Variable" Display="always" Required="false" Mask="false">RADARR_DEFAULT_AVAILABILITY=Announced</Config>
+  <Config Name="sonarr_url" Target="" Default="" Mode="" Description="Sonarr: the url of your sonarr instance (all four sonarr fields required to enable shows)" Type="Variable" Display="always" Required="false" Mask="false">SONARR_URL=</Config>
+  <Config Name="sonarr_token" Target="" Default="" Mode="" Description="Sonarr: api key from Sonarr -&gt; Settings -&gt; General (don't share)" Type="Variable" Display="always" Required="false" Mask="true">SONARR_TOKEN=</Config>
+  <Config Name="sonarr_default_profile" Target="" Default="" Mode="" Description="Sonarr: quality profile name (must already exist in sonarr)" Type="Variable" Display="always" Required="false" Mask="false">SONARR_DEFAULT_PROFILE=</Config>
+  <Config Name="sonarr_path" Target="" Default="" Mode="" Description="Sonarr: root folder where added shows should go" Type="Variable" Display="always" Required="false" Mask="false">SONARR_PATH=</Config>
+  <Config Name="sonarr_url_base" Target="" Default="" Mode="" Description="Sonarr: only set if sonarr runs under a custom url base (no prefix/suffix slashes)" Type="Variable" Display="always" Required="false" Mask="false">SONARR_URL_BASE=</Config>
+  <Config Name="sonarr_v4" Target="" Default="false" Mode="" Description="Sonarr: true if you are running Sonarr v4" Type="Variable" Display="always" Required="false" Mask="false">SONARR_V4=false</Config>
+  <Config Name="lidarr_url" Target="" Default="" Mode="" Description="Lidarr: the url of your lidarr instance (all five lidarr fields required to enable artists)" Type="Variable" Display="always" Required="false" Mask="false">LIDARR_URL=</Config>
+  <Config Name="lidarr_token" Target="" Default="" Mode="" Description="Lidarr: api key from Lidarr -&gt; Settings -&gt; General (don't share)" Type="Variable" Display="always" Required="false" Mask="true">LIDARR_TOKEN=</Config>
+  <Config Name="lidarr_default_quality_profile" Target="" Default="" Mode="" Description="Lidarr: quality profile name (must already exist in lidarr)" Type="Variable" Display="always" Required="false" Mask="false">LIDARR_DEFAULT_QUALITY_PROFILE=</Config>
+  <Config Name="lidarr_default_metadata_profile" Target="" Default="" Mode="" Description="Lidarr: metadata profile name (must already exist in lidarr)" Type="Variable" Display="always" Required="false" Mask="false">LIDARR_DEFAULT_METADATA_PROFILE=</Config>
+  <Config Name="lidarr_path" Target="" Default="" Mode="" Description="Lidarr: root folder where added artists/music should go" Type="Variable" Display="always" Required="false" Mask="false">LIDARR_PATH=</Config>
+  <Config Name="lidarr_url_base" Target="" Default="" Mode="" Description="Lidarr: only set if lidarr runs under a custom url base (no prefix/suffix slashes)" Type="Variable" Display="always" Required="false" Mask="false">LIDARR_URL_BASE=</Config>
+  <Config Name="command_prefix" Target="" Default="!" Mode="" Description="The command prefix used in chat (default !)" Type="Variable" Display="always" Required="false" Mask="false">COMMAND_PREFIX=!</Config>
+  <Config Name="max_requests_threshold" Target="" Default="" Mode="" Description="Threshold type for request limits: WEEK, MONTH, or DAY" Type="Variable" Display="always" Required="false" Mask="false">MAX_REQUESTS_THRESHOLD=</Config>
+  <Config Name="max_movie_requests_per_user" Target="" Default="" Mode="" Description="Max movie requests per user per threshold period" Type="Variable" Display="always" Required="false" Mask="false">MAX_MOVIE_REQUESTS_PER_USER=</Config>
+  <Config Name="max_show_requests_per_user" Target="" Default="" Mode="" Description="Max show requests per user per threshold period" Type="Variable" Display="always" Required="false" Mask="false">MAX_SHOW_REQUESTS_PER_USER=</Config>
+  <Config Name="max_artist_requests_per_user" Target="" Default="" Mode="" Description="Max artist requests per user per threshold period" Type="Variable" Display="always" Required="false" Mask="false">MAX_ARTIST_REQUESTS_PER_USER=</Config>
+  <Config Name="max_results_to_show" Target="" Default="20" Mode="" Description="Max search results to show per command (&lt;= 0 disables downloads display)" Type="Variable" Display="always" Required="false" Mask="false">MAX_RESULTS_TO_SHOW=20</Config>
+  <Config Name="max_downloads_to_show" Target="" Default="20" Mode="" Description="Max current downloads to show in notifications (0 or less hides them)" Type="Variable" Display="always" Required="false" Mask="false">MAX_DOWNLOADS_TO_SHOW=20</Config>
+  <Config Name="notification_interval" Target="" Default="20" Mode="" Description="Minutes between download status notifications" Type="Variable" Display="always" Required="false" Mask="false">NOTIFICATION_INTERVAL=20</Config>
+  <Config Name="existing_item_paths_blacklist" Target="" Default="" Mode="" Description="Comma delimited paths to exclude from library searches" Type="Variable" Display="always" Required="false" Mask="false">EXISTING_ITEM_PATHS_BLACKLIST=</Config>
+  <Config Name="status_endpoints" Target="" Default="" Mode="" Description="Extra endpoints for the !status command (comma delimited)" Type="Variable" Display="always" Required="false" Mask="false">STATUS_ENDPOINTS=</Config>
+  <Config Name="timeout" Target="" Default="5000" Mode="" Description="Connection/read timeout in milliseconds for all outbound requests" Type="Variable" Display="always" Required="false" Mask="false">TIMEOUT=5000</Config>
+  <Config Name="log_level" Target="" Default="info" Mode="" Description="log4j log level (trace, debug, info, warn, error)" Type="Variable" Display="always" Required="false" Mask="false">LOG_LEVEL=info</Config>
+</Container>
