@@ -193,6 +193,20 @@ public class MattermostChatClientTests {
   }
 
   @Test
+  public void statusChangeEvent_withObjectDataValue_isIgnored() {
+    MattermostChatClient chatClient = new MattermostChatClient();
+    TestListener listener = new TestListener();
+    chatClient.addListener(listener);
+
+    //status_change events carry an object value in data, which used to blow up json parsing
+    chatClient.processWebSocketMessage("{\"event\":\"status_change\",\"seq\":42,"
+      + "\"data\":{\"status\":{\"user_id\":\"some-user-id\",\"status\":\"idle\"}}}");
+
+    Assert.assertEquals(0, listener.messages.size());
+    Assert.assertEquals(0, listener.reactions.size());
+  }
+
+  @Test
   public void sendMessage_postsToChannel() {
     MattermostChatClient chatClient = new MattermostChatClient();
 

@@ -125,12 +125,13 @@ public class MattermostChatClient implements ChatClient<MattermostResponse> {
   }
 
   private void processPostedEvent(MattermostWebSocketEvent event) {
-    Map<String, String> data = event.getData();
-    if (data == null || Strings.isEmpty(data.get("post"))) {
+    Map<String, Object> data = event.getData();
+    Object rawPost = data == null ? null : data.get("post");
+    if (!(rawPost instanceof String) || Strings.isEmpty((String) rawPost)) {
       return;
     }
     //the post value of a posted event is itself a json string
-    MattermostPost post = new Gson().fromJson(data.get("post"), MattermostPost.class);
+    MattermostPost post = new Gson().fromJson((String) rawPost, MattermostPost.class);
     if (post == null || Strings.isEmpty(post.getMessage())) {
       return;
     }
@@ -158,7 +159,8 @@ public class MattermostChatClient implements ChatClient<MattermostResponse> {
     if (post.getMessage().startsWith("/")) {
       return;
     }
-    String sender = data.get("sender_username");
+    Object rawSender = data.get("sender_username");
+    String sender = rawSender instanceof String ? (String) rawSender : null;
     if (Strings.isEmpty(sender)) {
       sender = post.getUserId();
     }
@@ -168,12 +170,13 @@ public class MattermostChatClient implements ChatClient<MattermostResponse> {
   }
 
   private void processReactionAddedEvent(MattermostWebSocketEvent event) {
-    Map<String, String> data = event.getData();
-    if (data == null || Strings.isEmpty(data.get("reaction"))) {
+    Map<String, Object> data = event.getData();
+    Object rawReaction = data == null ? null : data.get("reaction");
+    if (!(rawReaction instanceof String) || Strings.isEmpty((String) rawReaction)) {
       return;
     }
     //the reaction value of a reaction_added event is itself a json string
-    MattermostReaction reaction = new Gson().fromJson(data.get("reaction"), MattermostReaction.class);
+    MattermostReaction reaction = new Gson().fromJson((String) rawReaction, MattermostReaction.class);
     if (reaction == null || Strings.isEmpty(reaction.getPostId())) {
       return;
     }
